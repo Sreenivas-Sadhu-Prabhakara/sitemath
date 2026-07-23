@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'">
+  <title>sitemath — paint quantity calculator: paint, primer, putty &amp; tiles from room measurements</title>
+  <meta name="description" content="Free paint quantity calculator: turn room measurements into litres of paint, primer, putty kg and tile counts — every coverage number cited to its TDS, overridable, rounded to real pack sizes. Works offline; nothing leaves your browser.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://sreenivas-sadhu-prabhakara.github.io/sitemath/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="Sreenivas Sadhu Prabhakara">
+  <meta name="keywords" content="paint quantity calculator, how much paint do I need, paint calculator India, wall putty calculator, primer quantity, tile calculator, tiles per box, paint coverage per litre, room paint estimate, Asian Paints coverage, painting material list">
+  <meta name="theme-color" content="#17191B" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#E9EAE6" media="(prefers-color-scheme: light)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="sitemath">
+  <meta property="og:title" content="sitemath — paint quantity calculator: paint, primer, putty &amp; tiles from room measurements">
+  <meta property="og:description" content="Measure the room, get the shopping list — litres, kg and tile boxes in real pack sizes, every coverage number shown, cited and yours to override. Nothing leaves your browser.">
+  <meta property="og:url" content="https://sreenivas-sadhu-prabhakara.github.io/sitemath/">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:image" content="https://sreenivas-sadhu-prabhakara.github.io/sitemath/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="sitemath — measure the room, get the shopping list">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="sitemath — paint quantity calculator: paint, primer, putty &amp; tiles from room measurements">
+  <meta name="twitter:description" content="Measure the room, get the shopping list — litres, kg and tile boxes in real pack sizes, every coverage number cited and overridable. Nothing leaves your browser.">
+  <meta name="twitter:image" content="https://sreenivas-sadhu-prabhakara.github.io/sitemath/og-image.png">
+  <meta name="twitter:image:alt" content="sitemath — measure the room, get the shopping list">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "sitemath",
+    "description": "A paint quantity calculator that turns room measurements into a buy-this-much material list: litres of paint and primer, kg of putty and tile counts, computed from manufacturer-published coverage bands, every coefficient cited and user-overridable, rounded up to real pack sizes.",
+    "url": "https://sreenivas-sadhu-prabhakara.github.io/sitemath/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any (modern web browser)",
+    "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+    "isAccessibleForFree": true,
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+    "license": "https://opensource.org/licenses/MIT",
+    "author": { "@type": "Person", "name": "Sreenivas Sadhu Prabhakara" },
+    "softwareVersion": "0.1.0",
+    "featureList": [
+      "Room measurer with m/ft toggle, door/window deductions and ceiling toggle",
+      "Paint, primer and putty quantities as honest min–max ranges from cited TDS coverage bands",
+      "Every coefficient tap-to-source with verified-on date and one-tap override",
+      "Pack-fill minimizer rounds worst-case quantities to real 1/4/10/20 L tins and 5/40 kg bags",
+      "Tile counts with wastage and box-of-N math in exact integer-mm arithmetic",
+      "A4 print site list, RFC-4180 CSV export and full JSON backup — all local, no network"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much paint do I need for a 12 × 10 ft room?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Measure length, width and height, subtract door and window areas, then divide the wall area by the paint's published coverage. A 12 × 10 ft room with 9 ft walls has roughly 36–37 m² of wall before deductions; at a typical interior emulsion band of 130–150 sq.ft per litre for 2 coats you would buy around 3–4 litres of topcoat, plus primer and putty. sitemath does this arithmetic with the exact cited band of the product class you pick and rounds up to real tin sizes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does sitemath show a range instead of one number?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Because manufacturers publish coverage as a band (for example 130–150 sq.ft/ltr for 2 coats), and real consumption depends on surface porosity, texture and application. One precise-looking number would be fake precision. sitemath shows the honest min–max range and recommends buying against the worst case."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does my room data leave the browser? Does sitemath work offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No data ever leaves your browser and yes, it works fully offline. The page ships a Content-Security-Policy of connect-src 'none', which makes the browser itself block any network send — the privacy is enforced, not promised. Projects are saved only in your browser's localStorage, with print, CSV and JSON export as your backups."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many tiles do I need per square metre and how many boxes should I buy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Divide the floor area by one tile's area, add a wastage allowance (commonly 5% for straight lay, about 10% for diagonal), round up once, then divide by the tiles-per-box printed on the carton and round up again. sitemath does this in exact integer-millimetre arithmetic with a single round-up, so 4.0 × 3.0 m in 600 × 600 mm tiles at 5% wastage is exactly 35 tiles — 9 boxes of 4 with 1 spare."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the calculator</a>
+
+  <header class="site">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="1" y="1" width="46" height="46" rx="10" fill="#1B1D1E"/>
+        <g transform="rotate(-18 24 24)">
+          <rect x="2" y="19" width="40" height="11" rx="1.5" fill="#F7C600"/>
+          <rect x="40" y="16" width="4" height="17" rx="1" fill="#1B1D1E"/>
+          <rect x="9"  y="19" width="2" height="6" fill="#1B1D1E"/>
+          <rect x="19" y="19" width="2" height="8" fill="#1B1D1E"/>
+          <rect x="29" y="19" width="2" height="6" fill="#1B1D1E"/>
+        </g>
+      </svg>
+      <span class="wordmark">sitemath</span>
+    </div>
+    <div class="head-actions">
+      <label class="visually-hidden" for="projectSelect">Project</label>
+      <select id="projectSelect" class="u-wauto"></select>
+      <button id="btnNewProject" class="small" type="button">New</button>
+      <button id="btnDupProject" class="small" type="button">Duplicate</button>
+      <button id="btnRenameProject" class="small" type="button">Rename</button>
+      <button id="btnDeleteProject" class="small danger" type="button">Delete</button>
+      <button id="btnTheme" class="small" type="button" aria-pressed="false">Dark scheme</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <h1>Paint Quantity Calculator — How Much Paint, Primer, Putty &amp; Tiles to Buy From Your Room Measurements</h1>
+    <p class="lede">Measure the room, get the shopping list. Every coverage number is shown, cited to the
+    manufacturer document it came from, and yours to override — results are honest min–max ranges rounded
+    up to real tins, bags and boxes.</p>
+
+    <p class="banner"><strong>Private by construction:</strong><span>this page ships
+    <code>Content-Security-Policy: connect-src 'none'</code> — the browser itself blocks any network send,
+    so your house plan cannot leave this browser. Projects live only in local storage; print, CSV and JSON
+    export are your backups.</span></p>
+
+    <!-- ================= rooms ================= -->
+    <section class="card" id="rooms" aria-labelledby="roomsH">
+      <h2 id="roomsH">1 · Rooms &amp; measurements</h2>
+      <div class="tick-run" aria-hidden="true"></div>
+
+      <div class="grid cols-4 mb10">
+        <fieldset>
+          <legend>Units</legend>
+          <label class="inline-check"><input type="radio" name="unit" value="m" checked> metres</label>
+          <label class="inline-check"><input type="radio" name="unit" value="ft"> feet <span class="num">(exact 0.3048 m/ft)</span></label>
+        </fieldset>
+        <fieldset>
+          <legend>Suggested door (m) — convention, edit to measured</legend>
+          <div class="grid cols-3 gap6">
+            <div><label for="doorW">Width</label><input id="doorW" type="number" step="0.05" min="0" value="0.9"></div>
+            <div><label for="doorH">Height</label><input id="doorH" type="number" step="0.05" min="0" value="2.1"></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Suggested window (m) — convention, edit to measured</legend>
+          <div class="grid cols-3 gap6">
+            <div><label for="winW">Width</label><input id="winW" type="number" step="0.05" min="0" value="1.2"></div>
+            <div><label for="winH">Height</label><input id="winH" type="number" step="0.05" min="0" value="1.2"></div>
+          </div>
+        </fieldset>
+        <div class="self-end">
+          <button id="btnAddRoom" class="cta" type="button">+ Add room</button>
+        </div>
+      </div>
+
+      <div id="roomList" role="group" aria-label="Rooms"></div>
+
+      <div class="readout" aria-live="polite">
+        <div class="big" id="netAreaReadout">0.00 m²</div>
+        <div class="tape-blade w340" aria-hidden="true"></div>
+        <p class="sub" id="netAreaSub">Net paintable area (walls after door/window deductions, plus any ceilings). Deductions subtract from wall area only — never the ceiling.</p>
+      </div>
+    </section>
+
+    <!-- ================= paint system ================= -->
+    <section class="card" id="paint" aria-labelledby="paintH">
+      <h2 id="paintH">2 · Paint system — putty, primer, topcoat</h2>
+      <div class="tick-run" aria-hidden="true"></div>
+
+      <div class="grid cols-3 mb8">
+        <fieldset>
+          <legend>Surface preset</legend>
+          <div class="choice-row">
+            <label class="m0"><input type="radio" name="preset" value="fresh" checked> Fresh surface — putty + primer + 2 topcoats</label>
+            <button class="chip beta" type="button" data-src="conv_fresh_system"><span class="dot"></span>convention</button>
+          </div>
+          <div class="choice-row">
+            <label class="m0"><input type="radio" name="preset" value="repaint"> Repaint (sound paint) — 2 topcoats</label>
+            <button class="chip" type="button" data-src="conv_repaint_system"><span class="dot"></span>basis</button>
+          </div>
+        </fieldset>
+        <p class="sub note span2">
+          Each layer's product class carries its cited coverage band. Tap any
+          band chip to see the source and override it. Coats are editable —
+          set what your painter actually quotes.</p>
+      </div>
+
+      <div class="scroll-x">
+      <table id="layerTable">
+        <thead>
+          <tr><th>Layer</th><th>Product class (cited band)</th><th>Coats</th><th class="qty">Quantity range</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      </div>
+      <p class="sub note-sm">
+        Putty coverage is a total-application figure (thin coats ≤ 2 mm as published), so it is not multiplied
+        by a coats count. <button class="chip" type="button" data-src="conv_tds_caveat"><span class="dot"></span>manufacturer caveat</button>
+      </p>
+    </section>
+
+    <!-- ================= shopping list ================= -->
+    <section class="card" id="shopping" aria-labelledby="shopH">
+      <h2 id="shopH">3 · Shopping list — real pack sizes</h2>
+      <div class="tape-blade w220 mb12" aria-hidden="true"></div>
+      <p class="sub note">Worst-case need rounded up to real packs
+        (least total volume, then fewest tins, then the largest tin). Buy against the worst case; the
+        best-case figure shows what you might get away with on an ideal surface.
+        Packs: <span class="num">1/4/10/20 L</span> tins, <span class="num">5/40 kg</span> putty bags
+        <button class="chip" type="button" data-src="pack_emulsion"><span class="dot"></span>tins</button>
+        <button class="chip" type="button" data-src="pack_putty"><span class="dot"></span>bags</button>
+      </p>
+      <div class="scroll-x">
+      <table id="shopTable">
+        <thead>
+          <tr><th>Material</th><th class="qty">Best case</th><th class="qty">Worst case</th><th class="qty">Buy</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      </div>
+      <div class="btnrow no-print">
+        <button id="btnPrint" class="cta" type="button">Print A4 site list</button>
+        <button id="btnCsv" type="button">Export CSV</button>
+        <button id="btnBackup" type="button">Backup JSON</button>
+        <button id="btnRestore" type="button">Restore JSON</button>
+        <input id="fileRestore" type="file" accept="application/json" class="visually-hidden" aria-hidden="true" tabindex="-1">
+      </div>
+    </section>
+
+    <!-- ================= tiles ================= -->
+    <section class="card" id="tiles" aria-labelledby="tilesH">
+      <h2 id="tilesH">4 · Tiles — count, boxes, spares</h2>
+      <div class="tick-run" aria-hidden="true"></div>
+      <div class="grid cols-6">
+        <div>
+          <label for="tileSource">Area from</label>
+          <select id="tileSource"></select>
+        </div>
+        <div>
+          <label for="tileArea">Direct area (m²)</label>
+          <input id="tileArea" type="number" step="0.01" min="0" value="12">
+        </div>
+        <div>
+          <label for="tileSize">Tile size</label>
+          <select id="tileSize"></select>
+        </div>
+        <div id="customTileWrap" hidden>
+          <label for="tileCustomL">Custom mm (L × W)</label>
+          <div class="row4">
+            <input id="tileCustomL" type="number" step="1" min="10" value="600" aria-label="Custom tile length in mm">
+            <input id="tileCustomW" type="number" step="1" min="10" value="600" aria-label="Custom tile width in mm">
+          </div>
+        </div>
+        <div>
+          <label for="tileLay">Lay</label>
+          <select id="tileLay">
+            <option value="straight">Straight (5% wastage)</option>
+            <option value="diagonal">Diagonal (10% wastage)</option>
+          </select>
+        </div>
+        <div>
+          <label for="tileWastage">Wastage % (editable)</label>
+          <input id="tileWastage" type="number" step="0.5" min="0" max="50" value="5">
+        </div>
+        <div>
+          <label for="tileBox">Tiles per box</label>
+          <input id="tileBox" type="number" step="1" min="1" value="4">
+        </div>
+      </div>
+      <p class="sub note-sm mt8">
+        Sizes are catalogue-cited nominal sizes
+        <button class="chip" type="button" data-src="tile_600x600"><span class="dot"></span>sizes</button>;
+        wastage defaults are stated conventions, not published specs
+        <button class="chip beta" type="button" data-src="tile_wastage_straight"><span class="dot"></span>beta · 5%</button>
+        <button class="chip beta" type="button" data-src="tile_wastage_diagonal"><span class="dot"></span>beta · 10%</button>.
+        Integer-mm math, one single round-up.
+      </p>
+      <div class="readout" aria-live="polite">
+        <div class="big" id="tileReadout">—</div>
+        <div class="tape-blade w280" aria-hidden="true"></div>
+        <p class="sub" id="tileSub"></p>
+      </div>
+    </section>
+
+    <!-- ================= coefficients ================= -->
+    <section class="card" id="coeffs" aria-labelledby="coeffH">
+      <h2 id="coeffH">Every coefficient, with its source</h2>
+      <div class="tick-run" aria-hidden="true"></div>
+      <p class="sub note">All <span class="num" id="coeffCount"></span> numbers this
+      app can use. Verified figures were read from the named manufacturer document on the shown date
+      (originals staged in the repository under <code>sources/</code>). <span class="badge-beta">beta</span>
+      marks a figure that could not be confirmed on an official page — it comes from the named secondary
+      source or stated convention and should be overridden with the number on your own tin.
+      <span class="badge-yours">your value</span> marks your override, used everywhere it flows.</p>
+      <div id="coeffList"></div>
+    </section>
+
+    <!-- ================= honest limits ================= -->
+    <section class="card" id="limits" aria-labelledby="limitsH">
+      <h2 id="limitsH">Honest limits — read before buying</h2>
+      <div class="tick-run" aria-hidden="true"></div>
+      <ul class="limits">
+        <li>Coverage bands are manufacturer figures for ideal, properly prepared surfaces — porosity,
+          texture, thinning and application method push real consumption outside the band. Buy against the
+          worst-case figure and treat every output as an estimate, not a guarantee.</li>
+        <li>Coefficients were verified on the shown date from the named documents; manufacturers reformulate
+          and re-spec. Every value carries its verified-on date and can be overridden in one tap.</li>
+        <li>Quantities only, never prices — rates vary by market, dealer and day; the shop's bill is the price.</li>
+        <li>Suggested door/window sizes and tile-wastage percentages are stated conventions — measure your
+          own openings; complex or diagonal lays can exceed the cited wastage.</li>
+        <li>This is not a site survey: dado heights, damaged plaster, extra putty coats and repair
+          quantities are contractor judgment calls this app cannot make and does not fake.</li>
+        <li>Projects live only in this browser's localStorage — clearing site data erases them;
+          print/CSV/JSON export is the only backup.</li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- source / override dialog -->
+  <dialog id="srcDialog" aria-labelledby="srcTitle">
+    <h3 id="srcTitle"></h3>
+    <div id="srcBody"></div>
+    <form method="dialog" class="dlg-actions">
+      <button id="btnClearOverride" type="button" class="small danger" hidden>Remove my override</button>
+      <button id="btnApplyOverride" type="button" class="small cta" hidden>Use my value</button>
+      <button class="small" value="close">Close</button>
+    </form>
+  </dialog>
+
+  <footer class="site">
+    <p><strong>Disclaimer:</strong> sitemath is an informational estimating aid, not professional advice, a
+    site survey or a quotation. Quantities are derived from manufacturer-published coverage bands verified on
+    the dates shown in the coefficients list; actual consumption varies with surface condition and
+    application. Confirm quantities with your painter or contractor before purchase. Provided “as is” under
+    the MIT licence, with no warranty of any kind.</p>
+    <p>100% offline &amp; private — <code>connect-src 'none'</code> is enforced by your browser ·
+    <a href="https://github.com/Sreenivas-Sadhu-Prabhakara/sitemath">source &amp; corpus citations on GitHub</a> ·
+    © 2026 Sreenivas Sadhu Prabhakara · MIT</p>
+  </footer>
+
+  <script src="data/coeffs.js"></script>
+  <script src="data/engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

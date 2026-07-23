@@ -1,0 +1,24 @@
+{
+  "name": "sitemath",
+  "short_name": "sitemath",
+  "description": "Paint quantity calculator: room measurements to cited paint, primer, putty and tile quantities in real pack sizes. Fully offline and private.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#E9EAE6",
+  "theme_color": "#1B1D1E",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
