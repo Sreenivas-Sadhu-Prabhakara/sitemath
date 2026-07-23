@@ -10,7 +10,8 @@
   --card2:   #EEEFEA;
   --ink:     #1B1D1E;   /* carbon */
   --muted:   #5C6266;   /* rebar grey, darkened for AA small text */
-  --line:    #C9CCC5;
+  --line:    #C9CCC5;   /* decorative hairline (card edges, row separators) */
+  --control-line: #767C80; /* rebar grey — interactive control boundary, AA 1.4.11 (≥3:1) */
   --tape:    #F7C600;   /* safety yellow — tape blade, buy figures, CTAs only */
   --tape-ink:#1B1D1E;
   --beta:    #8A4B00;   /* beta flag text (AA on card) */
@@ -30,6 +31,7 @@
   --ink:     #E5E7E2;   /* pale concrete */
   --muted:   #A6ADB0;
   --line:    #3A3E42;
+  --control-line: #767C80; /* rebar grey — interactive control boundary, AA 1.4.11 (≥3:1) */
   --tape:    #FFD23F;   /* high-vis */
   --tape-ink:#1B1D1E;
   --beta:    #F2C27E;
@@ -143,7 +145,7 @@ label { font-size: .86rem; font-weight: 600; display: block; margin-bottom: 2px;
 input[type="number"], input[type="text"], select {
   font: inherit; color: var(--ink);
   background: var(--card2);
-  border: 1px solid var(--line);
+  border: 1px solid var(--control-line);
   border-radius: var(--radius-sm);
   padding: 6px 8px;
   width: 100%;
@@ -161,14 +163,14 @@ button {
   font: inherit; font-weight: 700;
   color: var(--ink);
   background: var(--card2);
-  border: 1px solid var(--line);
+  border: 1px solid var(--control-line);
   border-radius: var(--radius-sm);
   padding: 7px 14px;
   cursor: pointer;
 }
 button:hover { border-color: var(--muted); }
 button.cta {
-  background: var(--tape); color: var(--tape-ink); border-color: var(--tape);
+  background: var(--tape); color: var(--tape-ink); border-color: var(--tape-ink);
 }
 button.small { padding: 3px 9px; font-size: .84rem; font-weight: 600; }
 button.danger { color: #A32014; }
@@ -211,6 +213,7 @@ td.qty, th.qty { text-align: right; padding-right: 0; white-space: nowrap; }
 .buy {
   font-weight: 800;
   background: var(--tape); color: var(--tape-ink);
+  border: 1px solid var(--tape-ink);
   padding: 1px 7px; border-radius: 4px; white-space: nowrap;
 }
 .range { white-space: nowrap; }
@@ -218,7 +221,7 @@ td.qty, th.qty { text-align: right; padding-right: 0; white-space: nowrap; }
 .chip {
   display: inline-flex; align-items: center; gap: 5px;
   font-size: .8rem; font-weight: 600;
-  border: 1px solid var(--line);
+  border: 1px solid var(--control-line);
   background: var(--card2);
   border-radius: 999px;
   padding: 2px 10px;
